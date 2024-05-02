@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -6,11 +7,19 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("SpawnEnemy", 2f, 2f);
+        StartCoroutine(SpawnEnemy());
     }
 
-    public void SpawnEnemy()
+    // Une coroutine est une méthode qui peut inclure des délais de temps
+    public IEnumerator SpawnEnemy()
     {
-        Instantiate(enemyPrefab, new Vector3(3f, 3f, 0), Quaternion.identity);
+        while (true)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Instantiate(enemyPrefab, new Vector3(3f, 3f, 0), Quaternion.identity);
+            }
+            yield return new WaitForSeconds(5);
+        }
     }
 }

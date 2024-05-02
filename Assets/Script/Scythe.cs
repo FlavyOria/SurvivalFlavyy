@@ -1,9 +1,22 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Scythe : MonoBehaviour
+public class Scythe : MonoBehaviour, IPoolable
 {
+    float lifetime = 2f;
+
+    public void Reset()
+    {
+        lifetime = 2f;
+    }
+
     void Update()
     {
-        transform.position += Vector3.right * 5f * Time.deltaTime;
+        lifetime -= Time.deltaTime;
+        if (lifetime < 0)
+        {
+            gameObject.SetActive(false);
+        }
+        transform.position += transform.right * 5f * Time.deltaTime;
     }
 }
