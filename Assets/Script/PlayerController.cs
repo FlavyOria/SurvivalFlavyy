@@ -4,15 +4,17 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float movespeed;
     [SerializeField] GameObject scythePrefab;
-    [SerializeField] float scytheTimer = 2;
+    [SerializeField] float scytheTimer = 1;
     float currentScytheTimer;
     Rigidbody2D rb;
     Animator animator;
+    XPBarController xpBarController; // Reference to the XPBarController script
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        xpBarController = FindObjectOfType<XPBarController>(); // Find the XPBarController in the scene
     }
 
     private void Update()
@@ -20,8 +22,8 @@ public class Player : MonoBehaviour
         currentScytheTimer -= Time.deltaTime;
         if (currentScytheTimer <= 0)
         {
-            //Spawn le scythe
-            for (int i = 0; i < 3; i++)
+            // Spawn the scythe
+            for (int i = 0; i < 9; i++)
             {
                 Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
 
@@ -32,40 +34,34 @@ public class Player : MonoBehaviour
             }
             currentScytheTimer += scytheTimer;
         }
-    }
 
-    void FixedUpdate()
-    {
+        // Handle player movement
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         rb.velocity = new Vector2(x, y) * movespeed;
-        //animator.SetFloat("Speed", rb.velocity.magnitude);
 
+        // Flip player sprite based on movement direction
         if (x != 0)
         {
             int a;
             if (x > 0)
-            {
                 a = 1;
-            }
             else
-            {
                 a = -1;
-            }
+
             transform.localScale = new Vector3(a, 1, 1);
-
-            int b = x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(b, 1, 1);
-
-            transform.localScale = new Vector3(x > 0 ? 1 : -1, 1, 1);
         }
     }
 
-
-    public int Foo()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        return 5;
-    }
+        if (collision.CompareTag("CrystalExperience"))
+        {
+            // Gain XP
+            xpBarController.GainXP(20); // Assuming GainXP is a method in your XPBarController script
 
-    public int Foo2() => 5;
+            // Destroy the CrystalExperience object
+            Destroy(collision.gameObject);
+        }
+    }
 }

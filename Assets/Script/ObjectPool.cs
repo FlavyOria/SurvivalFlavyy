@@ -37,7 +37,11 @@ public class ObjectPool : MonoBehaviour
     {
         poolIndex %= poolCount;
         GameObject p = pooledObjects[poolIndex++];
-        p.GetComponent<IPoolable>().Reset();
+        IPoolable poolable = p.GetComponent<IPoolable>();
+        if (poolable != null)
+        {
+            poolable.Reset();
+        }
         return p;
     }
 }
