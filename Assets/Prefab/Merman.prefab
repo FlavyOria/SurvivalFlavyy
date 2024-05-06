@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  XPCrystal: {fileID: 0}
 --- !u!1 &6978694242832222093
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +112,6 @@ GameObject:
   - component: {fileID: 6285807714720720052}
   - component: {fileID: 3369992891431783959}
   - component: {fileID: 2994597208466014666}
-  - component: {fileID: 5708992277749027421}
   m_Layer: 0
   m_Name: Merman
   m_TagString: Player
@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+  XPCrystal: {fileID: 6458277568328048666, guid: b636072ab2f5ba04c95e15ec8de71372, type: 3}
 --- !u!114 &2994597208466014666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,18 +234,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.1
---- !u!114 &5708992277749027421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6978694242832222093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de51f3cd20297c047a5e60140523e8a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
-  groupSpacing: 5
-  enemySpacing: 0.1

@@ -1,10 +1,17 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class XPBarController : MonoBehaviour
+public interface IXPBarUI
+{
+    void SetXP(float xpNormalized);
+    void SetLevel(int level);
+}
+
+public class XPBarController : MonoBehaviour, IXPBarUI
 {
     public Slider xpSlider;
-    public Text levelText;
+    public TMP_Text levelText;
 
     private int currentXP;
     private int maxXp = 100;
@@ -39,9 +46,19 @@ public class XPBarController : MonoBehaviour
         return currentLevel * 100;
     }
 
+    public void SetXP(float xpNormalized)
+    {
+        xpSlider.value = xpNormalized;
+    }
+
+    public void SetLevel(int level)
+    {
+        levelText.text = "Level: " + level.ToString();
+    }
+
     private void UpdateUI()
     {
-        xpSlider.value = (float)currentXP / maxXp;
-        levelText.text = "Level: " + currentLevel.ToString();
+        SetXP((float)currentXP / maxXp);
+        SetLevel(currentLevel);
     }
 }

@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         if (currentScytheTimer <= 0)
         {
             // Spawn the scythe
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 12; i++)
             {
                 Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
 

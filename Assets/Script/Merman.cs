@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Merman : MonoBehaviour
 {
-    public float speed = 1f; // Adjust this to control the speed of the merman movement
+    public float speed = 1f; // control the speed of the merman movement
     SoundPlayer soundPlayer;
+    [SerializeField] GameObject XPCrystal;
 
     void Update()
     {
@@ -12,7 +13,6 @@ public class Merman : MonoBehaviour
         {
             Vector3 playerPosition = GetPlayerPosition();
             Vector3 direction = (playerPosition - transform.position).normalized;
-            Debug.Log("Direction: " + direction);
             MoveTowards(direction);
         }
     }
@@ -41,12 +41,10 @@ public class Merman : MonoBehaviour
     {
         if (collision.CompareTag("Scythe"))
         {
-            Debug.Log("Merman OnTriggerEnter2D triggered by scythe collider");
-
             // Play death audio
             SoundPlayer.GetInstance().PlayDeathAudio();
 
-            // Spawn experience crystals from the object pool
+            // Spawn experience crystal from the object pool
             for (int i = 0; i < 3; i++)
             {
                 GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
@@ -58,10 +56,13 @@ public class Merman : MonoBehaviour
                     CrystalExperience.GetComponent<IPoolable>().Reset();
 
                     // Set a random offset position from the Merman's position
-                    Vector3 offset = Random.insideUnitCircle * 0.5f; // Adjust the offset as needed
+                    Vector3 offset = Random.insideUnitCircle * 0.5f; 
                     CrystalExperience.transform.position = transform.position + offset;
                 }
             }
+
+            // Instantiate the XPCrystal GameObject
+            Instantiate(XPCrystal, transform.position, Quaternion.identity);
 
             // Destroy the Merman GameObject
             Destroy(gameObject);
