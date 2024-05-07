@@ -3,6 +3,7 @@ using UnityEngine;
 public class Merman : MonoBehaviour
 {
     public float speed = 1f; // control the speed of the merman movement
+    public int hp = 3; // Points de vie initiaux du Merman
     SoundPlayer soundPlayer;
     [SerializeField] GameObject XPCrystal;
 
@@ -41,31 +42,45 @@ public class Merman : MonoBehaviour
     {
         if (collision.CompareTag("Scythe"))
         {
-            // Play death audio
-            SoundPlayer.GetInstance().PlayDeathAudio();
-
-            // Spawn experience crystal from the object pool
-            for (int i = 0; i < 3; i++)
+            hp--; 
+            if (hp <= 0)
             {
-                GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
-
-                // Check if the CrystalExperience prefab is valid
-                if (CrystalExperience != null)
-                {
-                    // Reset the state of the CrystalExperience prefab
-                    CrystalExperience.GetComponent<IPoolable>().Reset();
-
-                    // Set a random offset position from the Merman's position
-                    Vector3 offset = Random.insideUnitCircle * 0.5f; 
-                    CrystalExperience.transform.position = transform.position + offset;
-                }
+                Die(); 
             }
-
-            // Instantiate the XPCrystal GameObject
-            Instantiate(XPCrystal, transform.position, Quaternion.identity);
-
-            // Destroy the Merman GameObject
-            Destroy(gameObject);
+            else
+            {
+                // Effet visuel 
+                
+            }
         }
+    }
+
+    void Die()
+    {
+        // Play death audio
+        SoundPlayer.GetInstance().PlayDeathAudio();
+
+        // Spawn experience crystal from the object pool
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
+
+            // Check if the CrystalExperience prefab is valid
+            if (CrystalExperience != null)
+            {
+                // Reset the state of the CrystalExperience prefab
+                CrystalExperience.GetComponent<IPoolable>().Reset();
+
+                // Set a random offset position from the Merman's position
+                Vector3 offset = Random.insideUnitCircle * 0.5f;
+                CrystalExperience.transform.position = transform.position + offset;
+            }
+        }
+
+        // Instantiate the XPCrystal GameObject
+        Instantiate(XPCrystal, transform.position, Quaternion.identity);
+
+        // Destroy the Merman GameObject
+        Destroy(gameObject);
     }
 }

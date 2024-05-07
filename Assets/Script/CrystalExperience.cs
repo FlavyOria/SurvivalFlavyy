@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CrystalExperience : MonoBehaviour
 {
-    public int xpAmount = 10; // Define the amount of XP gained when the crystal is picked up
+    public int xpAmount = 10; 
     private XPBarController xpBarController;
 
     private void Start()

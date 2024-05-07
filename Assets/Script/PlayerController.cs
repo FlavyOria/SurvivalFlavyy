@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int hp = 5; // Points de vie initiaux du joueur
     [SerializeField] float movespeed;
     [SerializeField] GameObject scythePrefab;
     [SerializeField] float scytheTimer = 1;
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     XPBarController xpBarController; // Reference to the XPBarController script
+    public HealthSlider healthSlider; // Référence au script HealthSlider dans l'inspecteur pour mettre à jour le slider de santé
 
     private void Start()
     {
@@ -55,13 +57,42 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("CrystalExperience"))
+        if (collision.CompareTag("Merman")) 
+        {
+            hp--; // Décrémente les points de vie du joueur
+            healthSlider.UpdateHealthSlider(hp, 5); // Met à jour le slider de santé avec les nouveaux points de vie
+            if (hp <= 0)
+            {
+                // Si les points de vie sont épuisés, déclenche la défaite
+                HandleDefeat();
+            }
+        }
+        else if (collision.CompareTag("CrystalExperience"))
         {
             // Gain XP
-            xpBarController.GainXP(20); // Assuming GainXP is a method in your XPBarController script
+            xpBarController.GainXP(20); 
 
             // Destroy the CrystalExperience object
             Destroy(collision.gameObject);
         }
+    }
+
+    void HandleDefeat()
+    {
+        
+        Debug.Log("Game Over - Skills issues !");
+
+        // stop mouvement ca DEAD
+        rb.velocity = Vector2.zero; // Arrête le mouvement du joueur
+        this.enabled = false; // Désactive le script Player
+
+        
+        Invoke("ResetLevel", 3f); // Appelle la méthode ResetLevel après 3 secondes
+    }
+
+    void ResetLevel()
+    {
+       // reload
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }
