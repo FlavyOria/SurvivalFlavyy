@@ -18,9 +18,9 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        xpBarController = FindObjectOfType<XPBarController>(); 
+        xpBarController = FindObjectOfType<XPBarController>();
         currentHealth = maxHealth; // Set current health to max health initially
-       
+
         healthSlider.SetInitialHealth(maxHealth);
     }
 
@@ -70,17 +70,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+
     private void TakeDamage(int damage)
     {
-        currentHealth -= damage; 
-                                 // Ensure health stays within bounds
+        currentHealth -= damage;
+        // Ensure health stays within bounds
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        
+
         healthSlider.UpdateHealthSlider(currentHealth);
         if (currentHealth <= 0)
         {
-            
+
             HandleDefeat();
         }
     }

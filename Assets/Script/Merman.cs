@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Merman : MonoBehaviour
 {
-    public float speed = 1f; 
+    public float speed = 1f;
     public int hp = 1; // Points de vie initiaux du Merman
     SoundPlayer soundPlayer;
     [SerializeField] GameObject XPCrystal;
@@ -56,23 +56,23 @@ public class Merman : MonoBehaviour
 
     void Die(Vector3 deathPosition)
     {
-      
+
         SoundPlayer.GetInstance().PlayDeathAudio();
 
         // Spawn experience crystal from the object pool
         GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
 
-        
+
         if (CrystalExperience != null)
         {
-            
+
             CrystalExperience.GetComponent<IPoolable>().Reset();
 
-            
+
             CrystalExperience.transform.position = deathPosition;
         }
 
-        
+
         Instantiate(XPCrystal, deathPosition, Quaternion.identity);
 
         // Destroy the Merman GameObject

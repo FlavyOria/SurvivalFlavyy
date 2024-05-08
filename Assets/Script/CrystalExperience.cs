@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class CrystalExperience : MonoBehaviour
 {
-    public int xpAmount = 10; 
+    public int xpAmount = 10;
     private XPBarController xpBarController;
 
     private void Start()
     {
-        xpBarController = FindObjectOfType<XPBarController>(); 
+        xpBarController = FindObjectOfType<XPBarController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,7 +16,7 @@ public class CrystalExperience : MonoBehaviour
         {
             xpBarController.GainXP(xpAmount);
             Destroy(gameObject);
-          
+
         }
     }
 }

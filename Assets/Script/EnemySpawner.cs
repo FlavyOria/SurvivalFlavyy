@@ -6,6 +6,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] float enemySpacing = 0.5f;
 
+    private int currentLevel = 1; // Current level starts at 1
+
     [SerializeField] float minX = -10f; // Min
     [SerializeField] float maxX = 10f; // Max
     [SerializeField] float minY = -10f; // Min
@@ -20,18 +22,19 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            // Spawn  groups of enemies simultaneously
-            for (int group = 0; group < 2; group++)
+            // Calculate the number of groups based on the level
+            int groupsToSpawn = Mathf.Max(currentLevel, 2); // Ensure at least 2 groups are spawned
+
+            // Spawn groups of enemies simultaneously
+            for (int group = 0; group < groupsToSpawn; group++)
             {
-                // Calculate a random position within the scene boundaries for this group
                 Vector3 randomPosition = GetRandomSpawnPosition();
 
-                // Spawn the group of enemies at the random position
                 SpawnEnemyGroup(randomPosition);
             }
 
-            // Spawn delay
-            yield return new WaitForSeconds(5);
+            // Wait before spawning the next set of enemies
+            yield return new WaitForSeconds(3);
         }
     }
 
@@ -40,7 +43,6 @@ public class EnemySpawner : MonoBehaviour
         // Calculate random x and y coordinates within the specified range
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
-
 
         float randomZ = transform.position.z;
 
@@ -61,5 +63,11 @@ public class EnemySpawner : MonoBehaviour
             // Instantiate the enemy at the calculated position
             Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         }
+    }
+
+    // Method to update the current level
+    public void UpdateLevel(int newLevel)
+    {
+        currentLevel = newLevel;
     }
 }

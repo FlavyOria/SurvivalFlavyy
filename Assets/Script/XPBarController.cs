@@ -12,7 +12,7 @@ public class XPBarController : MonoBehaviour, IXPBarUI
 {
     public Slider xpSlider;
     public TMP_Text levelText;
-
+    [SerializeField] EnemySpawner spawner;
     private int currentXP;
     private int maxXp = 100;
     private int currentLevel = 1;
@@ -35,10 +35,12 @@ public class XPBarController : MonoBehaviour, IXPBarUI
 
     private void LevelUp()
     {
+
         currentLevel++;
         currentXP = 0;
         maxXp = CalculateMaxXPForNextLevel();
         UpdateUI();
+        spawner.UpdateLevel(currentLevel);
     }
 
     private int CalculateMaxXPForNextLevel()

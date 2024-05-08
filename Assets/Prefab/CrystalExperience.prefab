@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3069950733720065505}
   - component: {fileID: 4718755882487305599}
   - component: {fileID: 9197420714249008553}
+  - component: {fileID: -591342742644383449}
   m_Layer: 0
   m_Name: CrystalExperience
   m_TagString: Untagged
@@ -172,3 +173,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xpAmount: 10
+--- !u!114 &-591342742644383449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458277568328048666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2453ad33195b31447b096a7d57ee7904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToPool: {fileID: 6458277568328048666}
+  poolCount: 100
