@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Merman : MonoBehaviour
 {
-    public float speed = 1f; // control the speed of the merman movement
+    public float speed = 1f; 
     public int hp = 1; // Points de vie initiaux du Merman
     SoundPlayer soundPlayer;
     [SerializeField] GameObject XPCrystal;
@@ -45,40 +45,35 @@ public class Merman : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                Die();
+                Die(transform.position); // Call Die() with the Merman's position
             }
             else
             {
                 // Effet visuel ou changement couleur 
-
             }
         }
     }
 
-    void Die()
+    void Die(Vector3 deathPosition)
     {
-        // Play death audio
+      
         SoundPlayer.GetInstance().PlayDeathAudio();
 
         // Spawn experience crystal from the object pool
-        for (int i = 0; i < 3; i++)
+        GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
+
+        
+        if (CrystalExperience != null)
         {
-            GameObject CrystalExperience = ObjectPool.GetInstance().GetPooledObject();
+            
+            CrystalExperience.GetComponent<IPoolable>().Reset();
 
-            // Check if the CrystalExperience prefab is valid
-            if (CrystalExperience != null)
-            {
-                // Reset the state of the CrystalExperience prefab
-                CrystalExperience.GetComponent<IPoolable>().Reset();
-
-                // Set a random offset position from the Merman's position
-                Vector3 offset = Random.insideUnitCircle * 0.5f;
-                CrystalExperience.transform.position = transform.position + offset;
-            }
+            
+            CrystalExperience.transform.position = deathPosition;
         }
 
-        // Instantiate the XPCrystal GameObject
-        Instantiate(XPCrystal, transform.position, Quaternion.identity);
+        
+        Instantiate(XPCrystal, deathPosition, Quaternion.identity);
 
         // Destroy the Merman GameObject
         Destroy(gameObject);

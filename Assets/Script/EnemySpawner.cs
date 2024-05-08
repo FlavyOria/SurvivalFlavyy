@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] float enemySpacing = 0.5f; 
+    [SerializeField] float enemySpacing = 0.5f;
 
     [SerializeField] float minX = -10f; // Min
     [SerializeField] float maxX = 10f; // Max
@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            // Spawn three groups of enemies simultaneously
+            // Spawn  groups of enemies simultaneously
             for (int group = 0; group < 2; group++)
             {
                 // Calculate a random position within the scene boundaries for this group
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
 
-        
+
         float randomZ = transform.position.z;
 
         // Create a vector representing the random position
