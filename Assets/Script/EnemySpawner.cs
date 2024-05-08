@@ -4,8 +4,12 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] float groupSpacing = 5f; // Spacing between enemy groups on the x-axis
-    [SerializeField] float enemySpacing = 0.3f; // Spacing between enemies within a group on the x-axis
+    [SerializeField] float enemySpacing = 0.5f; 
+
+    [SerializeField] float minX = -10f; // Min
+    [SerializeField] float maxX = 10f; // Max
+    [SerializeField] float minY = -10f; // Min
+    [SerializeField] float maxY = 10f; // Max 
 
     private void Start()
     {
@@ -17,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             // Spawn three groups of enemies simultaneously
-            for (int group = 0; group < 3; group++)
+            for (int group = 0; group < 2; group++)
             {
                 // Calculate a random position within the scene boundaries for this group
                 Vector3 randomPosition = GetRandomSpawnPosition();
@@ -26,20 +30,22 @@ public class EnemySpawner : MonoBehaviour
                 SpawnEnemyGroup(randomPosition);
             }
 
-            // Wait for a short delay before restarting the spawning cycle
+            // Spawn delay
             yield return new WaitForSeconds(5);
         }
     }
 
     Vector3 GetRandomSpawnPosition()
     {
-        // Calculate random x, y, and z coordinates within the scene boundaries
-        float randomX = Random.Range(-groupSpacing, groupSpacing);
-        float randomY = Random.Range(-groupSpacing, groupSpacing);
-        float randomZ = transform.position.z; // Keep the z-position constant
+        // Calculate random x and y coordinates within the specified range
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY);
+
+        
+        float randomZ = transform.position.z;
 
         // Create a vector representing the random position
-        Vector3 randomPosition = new Vector3(transform.position.x + randomX, transform.position.y + randomY, randomZ);
+        Vector3 randomPosition = new Vector3(randomX, randomY, randomZ);
 
         return randomPosition;
     }
@@ -47,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemyGroup(Vector3 startPosition)
     {
         // Spawn enemies in a group with the same pattern starting from the given position
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
             // Calculate the spawn position for this enemy within the group
             Vector3 spawnPosition = startPosition + new Vector3(i * enemySpacing, 0f, 0f);

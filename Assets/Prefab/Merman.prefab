@@ -112,7 +112,6 @@ GameObject:
   - component: {fileID: 6748332120386181689}
   - component: {fileID: 6285807714720720052}
   - component: {fileID: 3369992891431783959}
-  - component: {fileID: 2994597208466014666}
   m_Layer: 0
   m_Name: Merman
   m_TagString: Merman
@@ -221,18 +220,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  hp: 3
+  hp: 1
   XPCrystal: {fileID: 6458277568328048666, guid: b636072ab2f5ba04c95e15ec8de71372, type: 3}
---- !u!114 &2994597208466014666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6978694242832222093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51eef35c37ebcb949b4b6b70d4eb5033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.1

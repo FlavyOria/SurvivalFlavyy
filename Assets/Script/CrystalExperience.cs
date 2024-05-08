@@ -7,7 +7,7 @@ public class CrystalExperience : MonoBehaviour
 
     private void Start()
     {
-        xpBarController = FindObjectOfType<XPBarController>(); // Find the XPBarController in the scene
+        xpBarController = FindObjectOfType<XPBarController>(); 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

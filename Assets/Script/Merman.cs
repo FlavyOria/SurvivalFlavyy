@@ -3,7 +3,7 @@ using UnityEngine;
 public class Merman : MonoBehaviour
 {
     public float speed = 1f; // control the speed of the merman movement
-    public int hp = 3; // Points de vie initiaux du Merman
+    public int hp = 1; // Points de vie initiaux du Merman
     SoundPlayer soundPlayer;
     [SerializeField] GameObject XPCrystal;
 
@@ -40,17 +40,17 @@ public class Merman : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Scythe"))
+        if (collision.gameObject.CompareTag("Scythe"))
         {
-            hp--; 
+            hp--;
             if (hp <= 0)
             {
-                Die(); 
+                Die();
             }
             else
             {
-                // Effet visuel 
-                
+                // Effet visuel ou changement couleur 
+
             }
         }
     }

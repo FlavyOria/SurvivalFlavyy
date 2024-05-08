@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int hp = 5; // Points de vie initiaux du joueur
+    public int maxHealth = 5; // Maximum health of the player
+    private int currentHealth; // Current health of the player
+
     [SerializeField] float movespeed;
     [SerializeField] GameObject scythePrefab;
     [SerializeField] float scytheTimer = 1;
@@ -10,13 +12,16 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     XPBarController xpBarController; // Reference to the XPBarController script
-    public HealthSlider healthSlider; // Référence au script HealthSlider dans l'inspecteur pour mettre à jour le slider de santé
+    public HealthSlider healthSlider; // Reference to the HealthSlider script for updating health UI
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        xpBarController = FindObjectOfType<XPBarController>(); // Find the XPBarController in the scene
+        xpBarController = FindObjectOfType<XPBarController>(); 
+        currentHealth = maxHealth; // Set current health to max health initially
+       
+        healthSlider.SetInitialHealth(maxHealth);
     }
 
     private void Update()
@@ -28,8 +33,6 @@ public class Player : MonoBehaviour
             for (int i = 0; i < 12; i++)
             {
                 Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
-
-                //Instantiate(scythePrefab, transform.position, rot);
                 GameObject scythe = ObjectPool.GetInstance().GetPooledObject();
                 scythe.transform.SetPositionAndRotation(transform.position, rot);
                 scythe.SetActive(true);
@@ -45,54 +48,56 @@ public class Player : MonoBehaviour
         // Flip player sprite based on movement direction
         if (x != 0)
         {
-            int a;
-            if (x > 0)
-                a = 1;
-            else
-                a = -1;
-
+            int a = x > 0 ? 1 : -1;
             transform.localScale = new Vector3(a, 1, 1);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Merman")) 
+        if (collision.CompareTag("Merman"))
         {
-            hp--; // Décrémente les points de vie du joueur
-            healthSlider.UpdateHealthSlider(hp, 5); // Met à jour le slider de santé avec les nouveaux points de vie
-            if (hp <= 0)
-            {
-                // Si les points de vie sont épuisés, déclenche la défaite
-                HandleDefeat();
-            }
+            // Decrease player's health by 1
+            TakeDamage(1);
         }
         else if (collision.CompareTag("CrystalExperience"))
         {
             // Gain XP
-            xpBarController.GainXP(20); 
+            xpBarController.GainXP(20);
 
             // Destroy the CrystalExperience object
             Destroy(collision.gameObject);
         }
     }
 
-    void HandleDefeat()
+    
+    private void TakeDamage(int damage)
     {
+        currentHealth -= damage; 
+                                 // Ensure health stays within bounds
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         
-        Debug.Log("Game Over - Skills issues !");
-
-        // stop mouvement ca DEAD
-        rb.velocity = Vector2.zero; // Arrête le mouvement du joueur
-        this.enabled = false; // Désactive le script Player
-
-        
-        Invoke("ResetLevel", 3f); // Appelle la méthode ResetLevel après 3 secondes
+        healthSlider.UpdateHealthSlider(currentHealth);
+        if (currentHealth <= 0)
+        {
+            
+            HandleDefeat();
+        }
     }
 
-    void ResetLevel()
+
+    // Player Deafeat 
+    private void HandleDefeat()
     {
-       // reload
+        Debug.Log("Game Over - Skills issues !");
+        rb.velocity = Vector2.zero; // Stop player movement
+        this.enabled = false; // Disable the Player script
+        Invoke("ResetLevel", 3f); // Reload scene after 3 seconds
+    }
+
+    // Method to reset the level
+    private void ResetLevel()
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }
