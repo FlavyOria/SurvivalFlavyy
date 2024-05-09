@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int maxHealth = 5; // Maximum health of the player
+    public int maxHealth = 15; // Maximum health of the player
     private int currentHealth; // Current health of the player
 
+    [SerializeField] GameOverScreen gameOverScreen;
     [SerializeField] float movespeed;
     [SerializeField] GameObject scythePrefab;
     [SerializeField] float scytheTimer = 1;
@@ -30,11 +31,13 @@ public class Player : MonoBehaviour
         if (currentScytheTimer <= 0)
         {
             // Spawn the scythe
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Quaternion rot = Quaternion.Euler(0, 0, Random.Range(0, 360f));
                 GameObject scythe = ObjectPool.GetInstance().GetPooledObject();
                 scythe.transform.SetPositionAndRotation(transform.position, rot);
+                float newScale = xpBarController.GetLevel() * 0.3f;
+                scythe.transform.localScale = (new Vector3(1f + newScale, 1f + newScale, 1f + newScale));
                 scythe.SetActive(true);
             }
             currentScytheTimer += scytheTimer;
@@ -80,13 +83,15 @@ public class Player : MonoBehaviour
         healthSlider.UpdateHealthSlider(currentHealth);
         if (currentHealth <= 0)
         {
-
-            HandleDefeat();
+            Time.timeScale = 0f;
+            gameOverScreen.Setup();
+            //HandleDefeat();
         }
     }
 
 
     // Player Deafeat 
+    /*
     private void HandleDefeat()
     {
         Debug.Log("Game Over - Skills issues !");
@@ -100,4 +105,5 @@ public class Player : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
+    */
 }

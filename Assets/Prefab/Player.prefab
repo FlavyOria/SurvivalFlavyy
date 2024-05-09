@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7c3e62b7b093f4ea14302be1c3bcd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  maxHealth: 5
   movespeed: 6
   scythePrefab: {fileID: 2987366060028546320, guid: c180257d2ff21dd4784d78788a03a693, type: 3}
   scytheTimer: 1

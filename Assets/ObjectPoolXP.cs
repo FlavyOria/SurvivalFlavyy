@@ -1,21 +1,17 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPoolable
-{
-    void Reset();
-}
-
-public class ObjectPool : MonoBehaviour
+public class ObjectPoolXP : MonoBehaviour
 {
     [SerializeField] GameObject objectToPool;
     [SerializeField] int poolCount = 100;
 
     List<GameObject> pooledObjects = new();
 
-    private static ObjectPool instance;
+    private static ObjectPoolXP instance;
 
-    public static ObjectPool GetInstance() => instance;
+    public static ObjectPoolXP GetInstance() => instance;
     int poolIndex;
 
     private void Awake()
@@ -35,9 +31,10 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetPooledObject()
     {
-        poolIndex %= poolCount;
+        poolIndex %= pooledObjects.Count; // Use pooledObjects.Count instead of poolCount
         GameObject p = pooledObjects[poolIndex++];
         p.GetComponent<IPoolable>().Reset();
         return p;
     }
+
 }

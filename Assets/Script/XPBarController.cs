@@ -63,4 +63,9 @@ public class XPBarController : MonoBehaviour, IXPBarUI
         SetXP((float)currentXP / maxXp);
         SetLevel(currentLevel);
     }
+
+    public int GetLevel()
+    {
+        return currentLevel;
+    }
 }

@@ -2,9 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Scythe : MonoBehaviour
+public class Scythe : MonoBehaviour, IPoolable
 {
     float lifetime = 2f;
+
+    public void Reset()
+    {
+        lifetime = 2f;
+    }
 
     void Update()
     {

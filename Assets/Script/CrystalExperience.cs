@@ -1,9 +1,24 @@
 using UnityEngine;
 
-public class CrystalExperience : MonoBehaviour
+public class CrystalExperience : MonoBehaviour, IPoolable
 {
     public int xpAmount = 10;
     private XPBarController xpBarController;
+    float lifetime = 60f;
+
+    public void Reset()
+    {
+        lifetime = 60f;
+    }
+    void Update()
+    {
+        lifetime -= Time.deltaTime;
+        if (lifetime < 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
 
     private void Start()
     {
@@ -15,8 +30,7 @@ public class CrystalExperience : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             xpBarController.GainXP(xpAmount);
-            Destroy(gameObject);
-
+            gameObject.SetActive(false);
         }
     }
 }
